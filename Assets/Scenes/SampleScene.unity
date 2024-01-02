@@ -249,6 +249,10 @@ PrefabInstance:
       propertyPath: spawnerType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8675609598568384966, guid: 67ef4bf2bf496024db6b6f066f631c02, type: 3}
+      propertyPath: changePositionTime
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1099,6 +1103,10 @@ PrefabInstance:
       propertyPath: spawnerType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8675609598568384966, guid: 67ef4bf2bf496024db6b6f066f631c02, type: 3}
+      propertyPath: changePositionTime
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1484,6 +1492,10 @@ PrefabInstance:
     - target: {fileID: 8675609598568384966, guid: 67ef4bf2bf496024db6b6f066f631c02, type: 3}
       propertyPath: spawnerType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675609598568384966, guid: 67ef4bf2bf496024db6b6f066f631c02, type: 3}
+      propertyPath: changePositionTime
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

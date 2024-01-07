@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletSpawner : MonoBehaviour
 {
     enum SpawnerType { Straight, Spin }
+    public enum MovementType { Free, LeftRight }
 
 
     [Header("Bullet Attributes")]
@@ -23,6 +24,9 @@ public class BulletSpawner : MonoBehaviour
     private float timer = 0f;
     private float changePositionTimer = 0f;
     private bool isMoving = false;
+
+    public MovementType movementType = MovementType.Free;
+
 
     // Start is called before the first frame update
     void Start()
@@ -72,11 +76,20 @@ public class BulletSpawner : MonoBehaviour
 
      private void SetNewPosition()
     {
-        Vector2 min = Camera.main.ScreenToWorldPoint(Vector2.zero); // Bottom-left corner of the screen in world coordinates
-        Vector2 max = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)); // Top-right corner of the screen in world coordinates
+        Vector2 currentPosition = transform.position;
 
-        // Generate a new random position within the screen boundaries
-        newPosition = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+        if (movementType == MovementType.LeftRight)
+        {
+            Vector2 min = Camera.main.ScreenToWorldPoint(Vector2.zero); // Bottom-left corner of the screen in world coordinates
+            Vector2 max = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)); // Top-right corner of the screen in world coordinates
+            newPosition = new Vector2(Random.Range(min.x, max.x), currentPosition.y);     
+        }
+        else
+        {
+            Vector2 min = Camera.main.ScreenToWorldPoint(Vector2.zero); // Bottom-left corner of the screen in world coordinates
+            Vector2 max = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)); // Top-right corner of the screen in world coordinates
+            newPosition = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
+        }      
     }
 
     private void Fire()
@@ -88,6 +101,15 @@ public class BulletSpawner : MonoBehaviour
             spawnedBullet.GetComponent<Bullet>().bulletLife = bulletLife;
             spawnedBullet.transform.rotation = transform.rotation;
         }
+    }
+
+    private float CalculateScreenWidthWorld()
+    {
+        // Calculate screen width in world coordinates
+        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        Vector2 zeroPoint = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        float screenWidthWorld = Mathf.Abs(screenBounds.x - zeroPoint.x);
+        return screenWidthWorld;
     }
 
 

@@ -49,7 +49,6 @@ public class Bullet : MonoBehaviour
         {
             // If the player collides with a border, set the velocity to zero
             Destroy(gameObject);
-            Destroy(collision.gameObject);
         }
     }
 }

@@ -8,6 +8,10 @@ TagManager:
   - BulletBorder
   - Coin
   - Bullet
+  - LeftBorder
+  - TopBorder
+  - RightBorder
+  - BottomBorder
   layers:
   - Default
   - TransparentFX
@@ -16,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Bullets
-  - 
+  - Tilemap
   - 
   - 
   - 

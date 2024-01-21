@@ -3,11 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum LevelState
+{
+    MainMenu,
+    InGame
+}
+
 public class Level : MonoBehaviour
 {
-    public void ChangeScene()
+    private LevelState currentLevelState = LevelState.MainMenu;
+
+    void Start()
     {
-        SceneManager.LoadScene("SampleScene");
+
+    }
+
+    public void SetLevelState(LevelState newState)
+    {
+        // Additional logic related to state transitions can be added here
+
+        // Update the current level state
+        currentLevelState = newState;
+
+        // Handle state-specific actions
+        switch (currentLevelState)
+        {
+            case LevelState.MainMenu:
+                LoadScene("Menu");
+                break;
+
+            case LevelState.InGame:
+                LoadScene("Game");
+                break;
+
+        }
+    }
+
+    // Method to change the scene
+    private void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 
     public void Restart()
@@ -15,8 +50,14 @@ public class Level : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void ToMenu()
+    public void StartGame()
     {
-        SceneManager.LoadScene("Menu");
+        SetLevelState(LevelState.InGame);
+    }
+
+
+    public void BackToMenu()
+    {
+        SetLevelState(LevelState.MainMenu);
     }
 }

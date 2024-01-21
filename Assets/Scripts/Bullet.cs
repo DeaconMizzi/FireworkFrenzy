@@ -8,10 +8,8 @@ public class Bullet : MonoBehaviour
     public float rotation = 0f;
     public float speed = 1f;
 
-
     private Vector2 spawnPoint;
     private float timer = 0f;
-
 
     // Start is called before the first frame update
     void Start()
@@ -19,15 +17,13 @@ public class Bullet : MonoBehaviour
         spawnPoint = new Vector2(transform.position.x, transform.position.y);
     }
 
-
     // Update is called once per frame
     void Update()
     {
-        if (timer > bulletLife) Destroy(this.gameObject);
+        if (timer > bulletLife) Destroy(gameObject);
         timer += Time.deltaTime;
         transform.position = Movement(timer);
     }
-
 
     private Vector2 Movement(float timer)
     {
@@ -37,18 +33,28 @@ public class Bullet : MonoBehaviour
         return new Vector2(x + spawnPoint.x, y + spawnPoint.y);
     }
 
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Border"))
         {
-            // If the player collides with a border, set the velocity to zero
+            // If the bullet collides with a border, set the velocity to zero
             Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Player"))
         {
-            // If the player collides with a border, set the velocity to zero
-            Destroy(gameObject);
+            ShieldController playerController = collision.gameObject.GetComponent<ShieldController>();
+
+            // Check if the player has a shield active
+            if (playerController != null && playerController.shieldActive)
+            {
+                // Optionally, you can add some visual or audio feedback for the bullet hitting the shield
+                Destroy(gameObject); // Destroy the bullet
+            }
+            else
+            {
+                // If the player does not have a shield active, destroy the player
+                Destroy(collision.gameObject);
+            }
         }
     }
 }

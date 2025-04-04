@@ -95,16 +95,25 @@ public class BulletSpawner : MonoBehaviour
         }
     }
 
-    private void Fire()
+private void Fire()
+{
+    if (bullet)
     {
-        if (bullet)
+        spawnedBullet = Instantiate(bullet, transform.position, Quaternion.identity);
+        spawnedBullet.GetComponent<Bullet>().speed = speed;
+        spawnedBullet.GetComponent<Bullet>().bulletLife = bulletLife;
+
+        if (spawnerType == SpawnerType.Straight)
         {
-            spawnedBullet = Instantiate(bullet, transform.position, Quaternion.identity);
-            spawnedBullet.GetComponent<Bullet>().speed = speed;
-            spawnedBullet.GetComponent<Bullet>().bulletLife = bulletLife;
+            // 👇 Manually set the bullet's "up" vector to point down
+            spawnedBullet.transform.up = Vector2.down;
+        }
+        else
+        {
             spawnedBullet.transform.rotation = transform.rotation;
         }
     }
+}
 
     private float CalculateScreenWidthWorld()
     {

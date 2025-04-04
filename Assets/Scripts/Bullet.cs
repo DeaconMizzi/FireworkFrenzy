@@ -20,40 +20,40 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timer > bulletLife) Destroy(gameObject);
+        if (timer > bulletLife)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         timer += Time.deltaTime;
         transform.position = Movement(timer);
     }
 
     private Vector2 Movement(float timer)
     {
-        // Moves right according to the bullet's rotation
-        float x = timer * speed * transform.right.x;
-        float y = timer * speed * transform.right.y;
-        return new Vector2(x + spawnPoint.x, y + spawnPoint.y);
+        // Moves in the bullet's "up" direction (rotate the bullet prefab when spawning)
+        Vector2 direction = transform.up;
+        return spawnPoint + direction * speed * timer;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Border"))
         {
-            // If the bullet collides with a border, set the velocity to zero
             Destroy(gameObject);
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
             ShieldController playerController = collision.gameObject.GetComponent<ShieldController>();
 
-            // Check if the player has a shield active
             if (playerController != null && playerController.shieldActive)
             {
-                // Optionally, you can add some visual or audio feedback for the bullet hitting the shield
-                Destroy(gameObject); // Destroy the bullet
+                Destroy(gameObject); // Bullet blocked by shield
             }
             else
             {
-                // If the player does not have a shield active, destroy the player
-                Destroy(collision.gameObject);
+                Destroy(collision.gameObject); // Player is hit
             }
         }
     }
